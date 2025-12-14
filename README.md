@@ -1,6 +1,6 @@
 # Sheikh Chat
 
-A modern, responsive ChatGPT-like interface built with Next.js 14, TypeScript, and Tailwind CSS. Features server actions for handling AI conversations with a clean, accessible UI.
+A modern, responsive ChatGPT-like interface built with Next.js 16, React 19.2, TypeScript, and Tailwind CSS. Features server actions for handling AI conversations with a clean, accessible UI and latest architectural improvements.
 
 ## Features
 
@@ -8,18 +8,20 @@ A modern, responsive ChatGPT-like interface built with Next.js 14, TypeScript, a
 - 💬 **Real-time Chat**: Smooth message animations and typing indicators
 - 🌙 **Theme Support**: Automatic theme detection with manual toggle
 - 📱 **Mobile Responsive**: Optimized for all screen sizes
-- ⚡ **Next.js 14**: Built with the latest Next.js features including Server Actions
+- ⚡ **Next.js 16**: Built with the latest Next.js features including stable Turbopack integration, Server Actions, and React 19.2 support
 - 🔄 **Smart Actions**: Server-side AI response generation
 - 📋 **Message Management**: Copy messages, clear chat history
 - 🎭 **Smooth Animations**: Fade-in effects and micro-interactions
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 with App Router
+- **Framework**: Next.js 16 with App Router and stable Turbopack
 - **Language**: TypeScript
+- **React**: 19.2 with latest features and optimizations
 - **Styling**: Tailwind CSS
 - **Icons**: Lucide React
 - **AI Integration**: Server Actions (ready for OpenAI integration)
+- **Build**: Enhanced Webpack optimizations and SWC minification
 
 ## Getting Started
 
@@ -160,4 +162,4 @@ Created by Osama Bin Likhon (osamabinlikhon@gmail.com)
 
 ---
 
-Built with ❤️ using Next.js 14 and modern web technologies.
+Built with ❤️ using Next.js 16, React 19.2, and modern web technologies.
