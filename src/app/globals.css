@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Vercel Design Guidelines Implementation */
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -10,7 +12,7 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 221.2 83.2% 53.3%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -22,8 +24,15 @@
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 221.2 83.2% 53.3%;
     --radius: 0.5rem;
+    
+    /* Vercel design tokens */
+    --focus-ring: 0 0% 0%;
+    --focus-ring-offset: 0 0% 100%;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 
   .dark {
@@ -33,7 +42,7 @@
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 47.4% 11.2%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -45,7 +54,40 @@
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --ring: 224.3 76.3% 94.1%;
+    
+    /* Dark mode focus ring */
+    --focus-ring: 0 0% 100%;
+    --focus-ring-offset: 222.2 84% 4.9%;
+  }
+
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Safe areas for mobile devices */
+  .safe-area-inset-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-area-inset-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-area-inset-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  
+  .safe-area-inset-right {
+    padding-right: env(safe-area-inset-right);
   }
 }
 
@@ -53,48 +95,284 @@
   * {
     @apply border-border;
   }
+
+  html {
+    color-scheme: light dark;
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-size: max(16px, 1em); /* Prevent iOS Safari auto-zoom */
+    touch-action: manipulation; /* Prevent double-tap zoom */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Focus management - Vercel guidelines */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: inherit;
+  }
+
+  *:focus-within {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: inherit;
+  }
+
+  /* Skip to content link */
+  .skip-to-content {
+    @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded focus:font-medium;
+  }
+
+  /* Accessible scrollbar */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  /* Ensure proper hit targets */
+  .hit-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Icon-only buttons with proper labels */
+  .icon-button {
+    @apply flex items-center justify-center min-h-[44px] min-w-[44px] p-3 rounded-lg transition-colors;
+  }
+
+  /* Loading states */
+  .loading {
+    position: relative;
+    pointer-events: none;
+  }
+
+  .loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border: 2px solid hsl(var(--muted-foreground) / 0.3);
+    border-top-color: hsl(var(--primary));
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  /* Enhanced shadows per Vercel guidelines */
+  .shadow-ambient {
+    box-shadow: 
+      0 2px 4px -1px rgb(0 0 0 / 0.06),
+      0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+
+  .shadow-elevated {
+    box-shadow:
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1),
+      0 0 0 1px rgb(0 0 0 / 0.05);
+  }
+
+  /* Optical alignment adjustments */
+  .optical-center {
+    transform: translateY(-1px);
+  }
+
+  .optical-bottom {
+    transform: translateY(1px);
   }
 }
 
-/* Custom scrollbar styles */
-.scrollbar-thin {
-  scrollbar-width: thin;
-  scrollbar-color: rgb(156 163 175) transparent;
-}
-
-.scrollbar-thin::-webkit-scrollbar {
-  width: 6px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: rgb(156 163 175);
-  border-radius: 3px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(107 114 128);
-}
-
-/* Message animations */
+/* Message animations - Vercel compliant */
 .message-fade-in {
-  animation: fadeIn 0.5s ease-in-out;
+  animation: messageFadeIn 0.3s ease-out;
 }
 
 .typing-indicator {
-  animation: typing 1.4s infinite;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+@keyframes messageFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes typing {
-  0%, 60%, 100% {
+  0%, 80%, 100% {
+    opacity: 0.4;
     transform: translateY(0);
   }
-  30% {
-    transform: translateY(-10px);
+  40% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+}
+
+/* Reduced motion variants */
+@media (prefers-reduced-motion: reduce) {
+  .message-fade-in {
+    animation: none;
+  }
+  
+  .typing-indicator {
+    animation: none;
+  }
+}
+
+/* Form input improvements */
+input, textarea, select {
+  @apply font-medium;
+  font-size: max(16px, 1em); /* Prevent iOS zoom */
+}
+
+input::placeholder, textarea::placeholder {
+  opacity: 0.6;
+}
+
+/* Button improvements */
+button {
+  @apply select-none;
+  touch-action: manipulation;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* Enhanced focus for form elements */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: inherit;
+}
+
+/* Tooltip styles */
+.tooltip {
+  @apply absolute z-50 px-2 py-1 text-sm bg-gray-900 text-white rounded shadow-lg;
+  animation: tooltipFadeIn 0.15s ease-out;
+}
+
+@keyframes tooltipFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Typing indicator dots */
+.typing-dot {
+  animation: typingDot 1.4s infinite ease-in-out;
+}
+
+@keyframes typingDot {
+  0%, 80%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* Keyboard navigation focus */
+.using-keyboard *:focus {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Enhanced focus for better visibility */
+.focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px hsl(var(--ring) / 0.1);
+}
+
+/* Copy feedback animation */
+.copy-feedback {
+  @apply absolute top-0 right-0 bg-green-500 text-white text-xs px-2 py-1 rounded;
+  animation: copyFeedback 2s ease-in-out;
+}
+
+@keyframes copyFeedback {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition: 
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Ensure proper contrast ratios */
+.high-contrast {
+  @apply contrast-more;
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --border: 0 0% 0%;
+    --ring: 221.2 83.2% 53.3%;
+  }
+  
+  .dark {
+    --border: 0 0% 100%;
+    --ring: 217.2 91.2% 59.8%;
   }
 }
