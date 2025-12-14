@@ -1,6 +1,12 @@
 {
   "name": "sheikh-chat",
   "version": "0.1.0",
+  "description": "Modern ChatGPT-like interface built with Next.js 14 and Server Actions",
+  "author": {
+    "name": "Osama Bin Likhon",
+    "email": "osamabinlikhon@gmail.com"
+  },
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev",

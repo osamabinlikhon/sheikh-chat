@@ -1,5 +1,12 @@
 'use client';
 
+/**
+ * Copyright (c) 2025 Osama Bin Likhon
+ * 
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import { useState, useEffect } from 'react';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';

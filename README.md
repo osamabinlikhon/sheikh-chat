@@ -156,7 +156,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## Author
 
-Created by MiniMax Agent
+Created by Osama Bin Likhon (osamabinlikhon@gmail.com)
 
 ---
 

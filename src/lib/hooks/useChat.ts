@@ -1,5 +1,12 @@
 'use client';
 
+/**
+ * Copyright (c) 2025 Osama Bin Likhon
+ * 
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { Message, ChatState } from '@/types/chat';
 import { generateId, scrollToBottom } from '@/lib/utils';
