@@ -1,6 +1,6 @@
 # Sheikh Chat
 
-A modern, responsive ChatGPT-like interface built with Next.js 16, React 19.2, TypeScript, and Tailwind CSS. Features server actions for handling AI conversations with a clean, accessible UI and latest architectural improvements.
+A modern, responsive ChatGPT-like interface built with Next.js 14, React 18, TypeScript, and Tailwind CSS. Features server actions for handling AI conversations with real AI providers (OpenAI, Google AI, Anthropic) and a clean, accessible UI.
 
 ## Features
 
@@ -22,12 +22,12 @@ A modern, responsive ChatGPT-like interface built with Next.js 16, React 19.2, T
 
 ## Tech Stack
 
-- **Framework**: Next.js 16 with App Router and stable Turbopack
+- **Framework**: Next.js 14 with App Router and Server Actions
 - **Language**: TypeScript
-- **React**: 19.2 with latest features and optimizations
+- **React**: 18 with latest features and optimizations
 - **Styling**: Tailwind CSS with Vercel Design System principles
 - **Icons**: Lucide React
-- **AI Integration**: Server Actions (ready for OpenAI integration)
+- **AI Integration**: Vercel AI SDK with multi-provider support (OpenAI, Google AI, Anthropic)
 - **Build**: Enhanced Webpack optimizations and SWC minification
 - **Accessibility**: WCAG 2.1 AA compliant with screen reader support
 - **Performance**: Optimized for Core Web Vitals and mobile performance
@@ -130,42 +130,85 @@ This project implements **Vercel's Web Interface Guidelines** and **WCAG 2.1 AA*
 - **Touch Interactions**: Proper touch target sizing and feedback
 - **Performance**: Optimized for mobile devices and low-power mode
 
-## Customization
+## AI Provider Setup
 
-### Adding OpenAI Integration
+Sheikh Chat supports multiple AI providers through the Vercel AI SDK. Configure any of the following providers:
 
-1. Install OpenAI SDK:
+### 🔧 OpenAI Setup (Recommended)
+
+1. Get your API key from [OpenAI Platform](https://platform.openai.com/api-keys)
+2. Add to `.env.local`:
 ```bash
-npm install openai
+OPENAI_API_KEY=sk-your-openai-api-key-here
+DEFAULT_AI_PROVIDER=openai
+DEFAULT_AI_MODEL=gpt-4o-mini
 ```
 
-2. Add your API key to environment variables:
+**Available Models:**
+- `gpt-4o` - Latest GPT-4 model
+- `gpt-4o-mini` - Cost-effective GPT-4 model
+- `gpt-4-turbo` - GPT-4 Turbo
+- `gpt-3.5-turbo` - GPT-3.5 Turbo
+
+### 🔧 Google AI Setup
+
+1. Get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Add to `.env.local`:
 ```bash
-echo "OPENAI_API_KEY=your-api-key-here" > .env.local
+GOOGLE_API_KEY=your-google-api-key-here
+DEFAULT_AI_PROVIDER=google
+DEFAULT_AI_MODEL=gemini-1.5-flash
 ```
 
-3. Update the server action in `src/app/actions/chatActions.ts`:
+**Available Models:**
+- `gemini-1.5-pro` - Gemini Pro model
+- `gemini-1.5-flash` - Gemini Flash model (fast & cost-effective)
 
-```typescript
-import OpenAI from 'openai';
+### 🔧 Anthropic Setup
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-export async function generateAIResponse(userMessage: string): Promise<string> {
-  const completion = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    messages: [
-      { role: "system", content: "You are Sheikh Chat, a helpful AI assistant." },
-      { role: "user", content: userMessage }
-    ],
-    max_tokens: 150,
-  });
-
-  return completion.choices[0]?.message?.content || "Sorry, I couldn't generate a response.";
-}
+1. Get your API key from [Anthropic Console](https://console.anthropic.com/)
+2. Add to `.env.local`:
+```bash
+ANTHROPIC_API_KEY=your-anthropic-api-key-here
+DEFAULT_AI_PROVIDER=anthropic
+DEFAULT_AI_MODEL=claude-3-haiku-20240307
 ```
+
+**Available Models:**
+- `claude-3-sonnet-20240229` - Claude 3 Sonnet
+- `claude-3-haiku-20240307` - Claude 3 Haiku (fast & cost-effective)
+- `claude-3-opus-20240229` - Claude 3 Opus
+
+### ⚙️ Global AI Settings
+
+Add these to your `.env.local`:
+
+```bash
+# Maximum tokens for responses (default: 1000)
+AI_MAX_TOKENS=1000
+
+# AI creativity/temperature (0.0-2.0, default: 0.7)
+AI_TEMPERATURE=0.7
+
+# Enable/disable AI features
+AI_ENABLED=true
+```
+
+### 🚀 Quick Start
+
+1. Copy the environment template:
+```bash
+cp .env.example .env.local
+```
+
+2. Edit `.env.local` and add your API key
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+The chat interface will automatically detect your AI configuration and enable real AI responses!
 
 ### Styling Customization
 

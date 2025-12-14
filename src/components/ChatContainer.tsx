@@ -13,7 +13,7 @@ import { ChatInput } from './ChatInput';
 import { TypingIndicator } from './TypingIndicator';
 import { ChatHeader } from './ChatHeader';
 import { useChat } from '@/lib/hooks/useChat';
-import { generateAIResponse } from '@/app/actions/chatActions';
+import { generateAIResponseAction, getAIStatus } from '@/app/actions/chatActions';
 
 export function ChatContainer() {
   const {
@@ -31,37 +31,61 @@ export function ChatContainer() {
   const [retryCount, setRetryCount] = useState(0);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
+  const [aiStatus, setAiStatus] = useState<{
+    configured: boolean;
+    provider: string;
+    model: string;
+  } | null>(null);
+
+  // Check AI status on component mount
+  useEffect(() => {
+    const checkAIStatus = async () => {
+      try {
+        const status = await getAIStatus();
+        setAiStatus(status);
+      } catch (error) {
+        console.error('Failed to check AI status:', error);
+      }
+    };
+    checkAIStatus();
+  }, []);
+
   // Vercel guideline: Optimistic UI with rollback on failure
   const handleSendMessage = useCallback(async (content: string) => {
-    const userMessageId = addMessage(content, 'user');
+    addMessage(content, 'user');
     setLoading(true);
     setError(null);
 
     try {
-      // Add optimistic loading state
-      const response = await generateAIResponse(content);
+      // Generate AI response using server action
+      const response = await generateAIResponseAction(content);
       
       // Add AI response
       addMessage(response, 'assistant');
       setRetryCount(0); // Reset retry count on success
+      
+      // Update AI status after successful response
+      if (!aiStatus?.configured) {
+        const status = await getAIStatus();
+        setAiStatus(status);
+      }
     } catch (error) {
       console.error('Error getting AI response:', error);
       
-      // Remove the user message on error (rollback)
-      // In a real app, you'd have more sophisticated rollback logic
-      setError('Failed to get AI response. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to get AI response. Please try again.';
+      setError(errorMessage);
       setRetryCount(prev => prev + 1);
       
-      // Provide helpful error message
-      const errorMessage = retryCount < 2 
+      // Provide helpful error message based on retry count
+      const fallbackMessage = retryCount < 2 
         ? 'I apologize, but I encountered an error. Please try again in a moment.'
-        : 'I\'m having trouble responding. Please check your connection and try again.';
+        : 'I\'m having trouble responding. Please check your AI provider configuration.';
       
-      addMessage(errorMessage, 'assistant');
+      addMessage(fallbackMessage, 'assistant');
     } finally {
       setLoading(false);
     }
-  }, [addMessage, setLoading, retryCount]);
+  }, [addMessage, setLoading, retryCount, aiStatus]);
 
   // Vercel guideline: Scroll position persistence
   useEffect(() => {
@@ -112,6 +136,33 @@ export function ChatContainer() {
         <p className="text-gray-600 dark:text-gray-400 mb-4">
           I'm your AI assistant, here to help with questions, explanations, and meaningful conversations.
         </p>
+        
+        {/* AI Status Indicator */}
+        {aiStatus && (
+          <div className={`mb-4 p-3 rounded-lg text-sm ${
+            aiStatus.configured 
+              ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800'
+              : 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-800'
+          }`}>
+            <div className="flex items-center justify-center space-x-2">
+              <div className={`w-2 h-2 rounded-full ${
+                aiStatus.configured ? 'bg-green-500' : 'bg-yellow-500'
+              }`} />
+              <span>
+                {aiStatus.configured 
+                  ? `Connected to ${aiStatus.provider} (${aiStatus.model})`
+                  : 'AI provider not configured'
+                }
+              </span>
+            </div>
+            {!aiStatus.configured && (
+              <p className="mt-2 text-xs">
+                Set up your API keys in the environment variables to enable AI responses.
+              </p>
+            )}
+          </div>
+        )}
+        
         <div className="text-sm text-gray-500 dark:text-gray-400">
           <p className="mb-2">Try asking me about:</p>
           <ul className="text-left space-y-1">

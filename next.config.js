@@ -1,19 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // React 19.2 support and optimizations
+  // React 18 support and optimizations
   reactStrictMode: true,
   
-  // Enable Turbopack for faster development builds
-  turbo: {
-    rules: {
-      '*.svg': {
-        loaders: ['@svgr/webpack'],
-        as: '*.js',
-      },
-    },
-  },
-  
-  // Server Actions are now stable in Next.js 16
+  // Server Actions
   serverActions: {
     bodySizeLimit: '2mb',
   },
@@ -25,16 +15,8 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   
-  // Webpack optimizations for Next.js 16
+  // Webpack optimizations
   webpack: (config, { dev, isServer }) => {
-    // Enable React 19.2 features
-    if (!dev && !isServer) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        'react/jsx-runtime': 'react/jsx-runtime',
-      };
-    }
-    
     return config;
   },
   
