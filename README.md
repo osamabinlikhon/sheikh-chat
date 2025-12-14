@@ -7,21 +7,31 @@ A modern, responsive ChatGPT-like interface built with Next.js 16, React 19.2, T
 - 🎨 **Modern UI**: Clean, responsive design with dark/light mode toggle
 - 💬 **Real-time Chat**: Smooth message animations and typing indicators
 - 🌙 **Theme Support**: Automatic theme detection with manual toggle
-- 📱 **Mobile Responsive**: Optimized for all screen sizes
+- 📱 **Mobile Responsive**: Optimized for all screen sizes with safe areas
 - ⚡ **Next.js 16**: Built with the latest Next.js features including stable Turbopack integration, Server Actions, and React 19.2 support
 - 🔄 **Smart Actions**: Server-side AI response generation
 - 📋 **Message Management**: Copy messages, clear chat history
-- 🎭 **Smooth Animations**: Fade-in effects and micro-interactions
+- 🎭 **Smooth Animations**: Fade-in effects and micro-interactions with `prefers-reduced-motion` support
+- ♿ **Accessibility First**: Full WCAG compliance with proper ARIA labels, keyboard navigation, and screen reader support
+- 🎯 **Vercel Design Guidelines**: Implements comprehensive UI/UX best practices
+- ⌨️ **Keyboard Navigation**: Complete keyboard operability following WAI-ARIA patterns
+- 🎨 **Focus Management**: Visible focus rings and proper focus trapping
+- 📐 **Touch Targets**: 44px minimum touch targets for mobile accessibility
+- 🔄 **Optimistic UI**: Real-time updates with error handling and rollback
+- 🛡️ **Security**: Proper focus management and protection against common UX issues
 
 ## Tech Stack
 
 - **Framework**: Next.js 16 with App Router and stable Turbopack
 - **Language**: TypeScript
 - **React**: 19.2 with latest features and optimizations
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS with Vercel Design System principles
 - **Icons**: Lucide React
 - **AI Integration**: Server Actions (ready for OpenAI integration)
 - **Build**: Enhanced Webpack optimizations and SWC minification
+- **Accessibility**: WCAG 2.1 AA compliant with screen reader support
+- **Performance**: Optimized for Core Web Vitals and mobile performance
+- **Design System**: Implements Vercel's Web Interface Guidelines
 
 ## Getting Started
 
@@ -88,9 +98,37 @@ sheikh-chat/
 ### Features
 
 - **Theme Toggle**: Click the sun/moon icon in the header
-- **Clear Chat**: Click the trash icon to clear all messages
+- **Clear Chat**: Click the trash icon to clear all messages (with confirmation)
 - **Copy Messages**: Hover over any message and click the copy icon
 - **Responsive Design**: Works seamlessly on desktop and mobile
+- **Keyboard Navigation**: Fully accessible via keyboard
+- **Screen Reader Support**: Optimized for assistive technologies
+
+## Accessibility & Design Standards
+
+This project implements **Vercel's Web Interface Guidelines** and **WCAG 2.1 AA** standards:
+
+### ♿ Accessibility Features
+- **Keyboard Navigation**: Complete keyboard operability following WAI-ARIA patterns
+- **Screen Reader Support**: Proper ARIA labels, roles, and live regions
+- **Focus Management**: Visible focus rings and logical focus flow
+- **Color Contrast**: Meets WCAG AA contrast requirements
+- **Touch Targets**: 44px minimum for mobile accessibility
+- **Reduced Motion**: Respects `prefers-reduced-motion` preference
+
+### 🎨 Design Guidelines
+- **Vercel Design System**: Implements comprehensive UI/UX best practices
+- **Optical Alignment**: Precise visual alignment with perceptual adjustments
+- **Layered Shadows**: Ambient + direct lighting effects
+- **Loading States**: Proper loading indicators and feedback
+- **Error Handling**: Clear error messages with recovery options
+- **Empty States**: Helpful guidance for new users
+
+### 📱 Mobile Optimization
+- **Safe Areas**: Proper handling of notches and device insets
+- **Viewport**: Optimized viewport configuration
+- **Touch Interactions**: Proper touch target sizing and feedback
+- **Performance**: Optimized for mobile devices and low-power mode
 
 ## Customization
 
