@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: 'Sheikh Chat - AI Assistant',
   description: 'A modern ChatGPT-like interface built with Next.js and server actions',
   keywords: ['AI', 'Chat', 'Assistant', 'Next.js', 'ChatGPT'],
-  authors: [{ name: 'MiniMax Agent' }],
+  authors: [{ name: 'Osama Bin Likhon', email: 'osamabinlikhon@gmail.com' }],
   viewport: 'width=device-width, initial-scale=1',
 }
 

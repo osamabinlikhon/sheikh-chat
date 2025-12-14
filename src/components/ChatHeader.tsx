@@ -1,5 +1,12 @@
 'use client';
 
+/**
+ * Copyright (c) 2025 Osama Bin Likhon
+ * 
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import { Sun, Moon, MessageSquare, Trash2, Settings } from 'lucide-react';
 
 interface ChatHeaderProps {

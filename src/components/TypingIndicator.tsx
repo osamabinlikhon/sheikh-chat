@@ -1,5 +1,12 @@
 'use client';
 
+/**
+ * Copyright (c) 2025 Osama Bin Likhon
+ * 
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 export function TypingIndicator() {
   return (
     <div className="flex justify-start mb-4 animate-fade-in">
